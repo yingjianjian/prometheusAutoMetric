@@ -3,7 +3,7 @@ from elasticsearch import Elasticsearch
 # print(es.nodes.stats())
 class esApi():
     def __init__(self):
-        self.es = Elasticsearch([{'host': '10.30.30.25', 'port': 9200}], timeout=3600)
+        self.es = Elasticsearch([{'host': 'elasticsearch-logging', 'port': 9200}], timeout=3600)
         self.result = dict()
         self.Value = dict()
         self.esStatus = dict()

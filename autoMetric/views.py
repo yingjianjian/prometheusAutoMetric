@@ -14,7 +14,8 @@ from .util import esApi
 #         return HttpResponse(prometheus_client.generate_latest(requests_total),content_type="text/plain")
 
 REGISTRY = CollectorRegistry(auto_describe=False)
-
+esStatus = Gauge("elasticsearch", "elasticsearch status is:", ["node", "class"],
+                 registry=REGISTRY)  # 数值可大可小
 # manageStatus = Gauge("manage_api_21","Api response stats is:",registry=REGISTRY)
 # random_value = Gauge("random_value","Random value of the request",registry=REGISTRY)
 # c = Counter("request_total","HTTP requests total",["method","clientip"],registry=REGISTRY)
@@ -28,8 +29,6 @@ class ApiResponse(View):
         es_result = es_obj.es_status()
         for node, values in es_result.items():
             for key,value in values.items():
-                esStatus = Gauge("%s"%(key), "%s status is:" % (node), ["node","class"],
-                                 registry=REGISTRY)  # 数值可大可小
                 esStatus.labels(node,key).set(value)
         # c.labels('get', '127.0.0.1').inc()
         # c.labels('post', '127.0.0.1').inc(3)

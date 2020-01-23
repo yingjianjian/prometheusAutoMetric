@@ -43,9 +43,11 @@ kind: Service
 metadata:
   name: autoexport
   namespace: monitoring
+  labels:
+    app: autoexport
 spec:
   ports:
-  - name: metrics
+  - name: autometrics
     port: 8000
     targetPort: 8000
   selector:

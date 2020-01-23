@@ -44,11 +44,9 @@ metadata:
   name: autoexport
   namespace: monitoring
 spec:
-  type: NodePort
   ports:
   - name: metrics
     port: 8000
     targetPort: 8000
   selector:
     app: autoexport
-  sessionAffinity: ClientIP

@@ -11,8 +11,10 @@ spec:
     - default
   selector:
     matchLabels:
-      app: autoexport
+      app: monitoring
   endpoints:
   - port: metrics
     scheme: http
+    interval: 30s
     path: '/api/autoMetric/Apimetric'
+    honorLabels: true

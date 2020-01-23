@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: ops-notfiy
+  name: autoExport
   namespace: monitoring
 spec:
   replicas: 1
@@ -13,11 +13,11 @@ spec:
   template:
     metadata:
       labels:
-        app: ops-notfiy
+        app: autoExport
     spec:
       containers:
-        - name: ops-notfiy
-          image: ops-notfiy:v0.0.1
+        - name: autoExport
+          image: autoExport:v0.0.1
           env:
           - name: EMAIL_HOST
             value: "smtp.exmail.qq.com"
@@ -62,15 +62,14 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: ops-notfiy
+  name: autoExport
   namespace: monitoring
 spec:
   type: NodePort
   ports:
   - name: webhook
-    port: 8002
-    targetPort: 8002
-    nodePort: 8002
+    port: 8000
+    targetPort: 8000
   selector:
-    app: ops-notfiy
+    app: autoExport
   sessionAffinity: ClientIP

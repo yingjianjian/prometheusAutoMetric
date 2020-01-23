@@ -9,5 +9,5 @@ ADD .  /opt/
 RUN apk add --no-cache  python3-dev gcc libc-dev
 RUN mkdir -p /logs/
 RUN pip install -r requirements.txt -i http://pypi.douban.com/simple  --trusted-host pypi.douban.com
-EXPOSE 8002
-CMD python3 manage.py runserver 0:8002
+EXPOSE 8000
+CMD python3 manage.py runserver 0:8000

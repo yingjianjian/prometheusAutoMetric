@@ -1,7 +1,7 @@
 apiVersion: extensions/v1beta1
 kind: Deployment
 metadata:
-  name: autoExport
+  name: autoexport
   namespace: monitoring
 spec:
   replicas: 1
@@ -13,10 +13,10 @@ spec:
   template:
     metadata:
       labels:
-        app: autoExport
+        app: autoexport
     spec:
       containers:
-        - name: autoExport
+        - name: autoexport
           image: autoexport:v0.0.1
           ports:
             - containerPort: 8000
@@ -41,7 +41,7 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: autoExport
+  name: autoexport
   namespace: monitoring
 spec:
   type: NodePort
@@ -50,5 +50,5 @@ spec:
     port: 8000
     targetPort: 8000
   selector:
-    app: autoExport
+    app: autoexport
   sessionAffinity: ClientIP

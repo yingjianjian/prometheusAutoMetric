@@ -1,0 +1,76 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: ops-notfiy
+  namespace: monitoring
+spec:
+  replicas: 1
+  strategy:
+    rollingUpdate:
+      maxSurge: 1
+      maxUnavailable: 0
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: ops-notfiy
+    spec:
+      containers:
+        - name: ops-notfiy
+          image: ops-notfiy:v0.0.1
+          env:
+          - name: EMAIL_HOST
+            value: "smtp.exmail.qq.com"
+          - name: EMAIL_PORT
+            value: "465"
+          - name: EMAIL_HOST_USER
+            value: "test@test.com"
+          - name: EMAIL_HOST_PASSWORD
+            value: "test"
+          - name: EMAIL_USE_SSL
+            value: "True"
+          - name: EMAIL_FROM
+            value: "Yjj"
+          - name: KIBANA_URL
+            value: "http://10.30.30.25:15601"
+          - name: KIBANA_DATE_TIME
+            value: "now-10m"
+          - name: PRO_URL
+            value: "www.baidu.com"
+          - name: PRO_PROJECT
+            value: "test"
+          ports:
+            - containerPort: 8002
+          livenessProbe:
+            tcpSocket:
+              port: 8002
+            initialDelaySeconds: 600
+            periodSeconds: 10
+            timeoutSeconds: 1
+          readinessProbe:
+            tcpSocket:
+              port: 8002
+            initialDelaySeconds: 10
+            periodSeconds: 5
+            timeoutSeconds: 1
+          resources:
+            limits:
+              memory: "1Gi"
+            requests:
+              memory: "256Mi"
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ops-notfiy
+  namespace: monitoring
+spec:
+  type: NodePort
+  ports:
+  - name: webhook
+    port: 8002
+    targetPort: 8002
+    nodePort: 8002
+  selector:
+    app: ops-notfiy
+  sessionAffinity: ClientIP

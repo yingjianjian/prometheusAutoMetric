@@ -1,6 +1,5 @@
 from elasticsearch import Elasticsearch
 
-# print(es.nodes.stats())
 class esApi():
     def __init__(self):
         self.es = Elasticsearch([{'host': '10.30.30.25', 'port': 9200}], timeout=3600)
@@ -25,7 +24,4 @@ class esApi():
         self.esStatus['es_unassigned_shards'] = esStatus['unassigned_shards']
         return self.esStatus
 
-#
-# while True:
-#     a = esApi()
-#     a.es_status()
+

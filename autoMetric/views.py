@@ -32,6 +32,6 @@ class urlStatus(View):
             urlCollector.labels(status, code,urlObj).set(0)
         else:
             status = "success"
-            urlCollector.labels(status,code,urlObj).set(0)
+            urlCollector.labels(status,code,urlObj).set(1)
         return HttpResponse(prometheus_client.generate_latest(REGISTRY_URL),content_type="text/plain")
 # Create your views here.

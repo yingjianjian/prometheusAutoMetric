@@ -10,7 +10,11 @@ spec:
     matchLabels:
       app: autoexport
   endpoints:
-  - port: metrics
+  - port: autometrics
     scheme: http
     interval: 30s
     path: '/api/autoMetric/Apimetric'
+  - port: autometrics
+    scheme: http
+    interval: 30s
+    path: '/api/autoMetric/urlRequest'

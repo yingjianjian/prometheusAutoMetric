@@ -18,3 +18,7 @@ spec:
     scheme: http
     interval: 30s
     path: '/api/autoMetric/urlRequest'
+  - port: autometrics
+    scheme: http
+    interval: 30s
+    path: '/api/autoMetric/faceStatus'

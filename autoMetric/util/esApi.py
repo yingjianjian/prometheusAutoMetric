@@ -20,6 +20,14 @@ class esApi():
                          "term": {
                              "appname": "bi"
                          }
+                        }
+
+                    ],
+                    "should": [
+                        {
+                            "regexp": {
+                                "message.keyword": "数据共享平台,接口响应异常.*"
+                            }
                         },
                         {
                             "match": {

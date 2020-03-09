@@ -7,26 +7,41 @@ class esApi():
         self.Value = dict()
         self.esStatus = dict()
     def es_obj(self):
-        body = {
+        body1 = {
             "query": {
                 "bool": {
                     "must": [
                         {
-                        "range": {
-                            '@timestamp': {'gt': 'now-30m'}
-                        }
-                    },
+                            "range": {
+                                '@timestamp': {'gt': 'now-30m'}
+                            }
+                        },
                         {
-                         "term": {
-                             "appname": "watcher"
-                         }
-                        }
-
-                    ],
-                    "should": [
+                            "term": {
+                                "appname": "watcher"
+                            }
+                        },
                         {
                             "regexp": {
                                 "message.keyword": "数据共享平台,接口响应异常.*"
+                            }
+                        },
+                    ]
+                }
+            }
+        }
+        body2 = {
+            "query": {
+                "bool": {
+                    "must": [
+                        {
+                            "range": {
+                                '@timestamp': {'gt': 'now-30m'}
+                            }
+                        },
+                        {
+                            "term": {
+                                "appname": "watcher"
                             }
                         },
                         {
@@ -36,11 +51,12 @@ class esApi():
                         }
                     ]
                 }
-
             }
         }
-        result=self.es.search(index="isyscore-*",body=body,size=1000)
-        return result['hits']['hits']
+        result1=self.es.search(index="isyscore-*",body=body1,size=1000)['hits']['hits']
+        result2 = self.es.search(index="isyscore-*", body=body2, size=1000)['hits']['hits']
+        result = result1 + result2
+        return result
     # def es_status(self):
     #     #    for key,value in self.es.nodes.stats()['nodes'].items():
     #     #        self.Value['es_heap_used_percent'] = value['jvm']['mem']['heap_used_percent']           #75的时候进行GC   节点总是大约75%，那你节点正在承受内存方面的压力，这是一个告警，预示着你不久就会出现慢GC heap使用率一直在85%

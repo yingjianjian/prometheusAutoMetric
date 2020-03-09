@@ -20,12 +20,17 @@ class esApi():
                         "range": {
                             '@timestamp': {'gt': 'now-30m'}
                         }
-                    }
+                    },
+                        {
+                         "term": {
+                             "appname": "watcher"
+                         }
+                        }
                     ]
                 }
             }
         }
-        result=self.es.search(index="isyscore-*",body=body)
+        result=self.es.search(index="isyscore-*",body=body,size=1000)
         return result['hits']['hits']
     # def es_status(self):
     #     #    for key,value in self.es.nodes.stats()['nodes'].items():

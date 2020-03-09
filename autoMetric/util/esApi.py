@@ -2,7 +2,7 @@ from elasticsearch import Elasticsearch
 
 class esApi():
     def __init__(self):
-        self.es = Elasticsearch([{'host': 'elasticsearch-logging', 'port': 9200}], timeout=3600)
+        self.es = Elasticsearch([{'host': '139.9.147.253', 'port': 19200}], timeout=3600)
         self.result = dict()
         self.Value = dict()
         self.esStatus = dict()
@@ -15,7 +15,7 @@ class esApi():
                     "must": [
                         {
                             "range": {
-                                '@timestamp': {'gt': 'now-1m'}
+                                '@timestamp': {'gt': 'now-10m'}
                             }
                         },
                         {
@@ -25,7 +25,7 @@ class esApi():
                         },
                         {
                             "regexp": {
-                                "message.keyword": "数据共享平台,接口响应异常.*"
+                                "message.keyword": "数据共享平台,接口网络异常.*"
                             }
                         },
                     ]
@@ -38,7 +38,7 @@ class esApi():
                     "must": [
                         {
                             "range": {
-                                '@timestamp': {'gt': 'now-1m'}
+                                '@timestamp': {'gt': 'now-10m'}
                             }
                         },
                         {
@@ -56,8 +56,10 @@ class esApi():
             }
         }
         result1=self.es.search(index="isyscore-*",body=body1,size=1000)['hits']['hits']
+        print(result1)
         result2 = self.es.search(index="isyscore-*", body=body2, size=1000)['hits']['hits']
         result = result1 + result2
+        print(result)
         return result
 
 

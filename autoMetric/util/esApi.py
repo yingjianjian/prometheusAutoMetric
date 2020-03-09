@@ -22,7 +22,8 @@ class esApi():
                          }
                         }
 
-                    ],
+                    ]},
+                "bool": {
                     "should": [
                         {
                             "regexp": {

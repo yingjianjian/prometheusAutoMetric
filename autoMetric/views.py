@@ -17,7 +17,7 @@ urlCollector = Counter("watcherStatus","watcher Url status",["status","code","ur
 class ApiResponse(View):
     def get(self,request):
         es_obj = esApi.esApi()
-        es_result = es_obj.es_obj()
+        es_result = es_obj.es_object()
         for dict in es_result:
             index = dict['_index']
             messages = dict['_source']['message']

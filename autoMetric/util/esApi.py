@@ -22,19 +22,21 @@ class esApi():
                          }
                         }
 
-                    ]},
-                "should": [
-                    {
-                        "regexp": {
-                            "message.keyword": "数据共享平台,接口响应异常.*"
+                    ],
+                    "should": [
+                        {
+                            "regexp": {
+                                "message.keyword": "数据共享平台,接口响应异常.*"
+                            }
+                        },
+                        {
+                            "match": {
+                                "message.keyword": "数据共享平台,通过身份证号获取健康码失败"
+                            }
                         }
-                    },
-                    {
-                        "match": {
-                            "message.keyword": "数据共享平台,通过身份证号获取健康码失败"
-                        }
-                    }
-                ]
+                    ]
+                }
+
             }
         }
         result=self.es.search(index="isyscore-*",body=body,size=1000)

@@ -20,18 +20,10 @@ class esApi():
                          "term": {
                              "appname": "bi"
                          }
-                        }
-
-                    ],
-                    "should": [
-                        {
-                            "match": {
-                                "message": "数据共享平台,接口响应异常"
-                            }
                         },
                         {
                             "match": {
-                                "message": "数据共享平台,通过身份证号获取健康码失败"
+                                "message.keyword": "数据共享平台,通过身份证号获取健康码失败"
                             }
                         }
                     ]

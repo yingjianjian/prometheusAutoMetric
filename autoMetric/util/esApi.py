@@ -10,12 +10,7 @@ class esApi():
         body = {
             "query": {
                 "bool": {
-                    "filter": [
-                        {
-                        "terms": {
-                            "message": ["数据共享平台,通过身份证号获取健康码失败","数据共享平台,接口响应异常"]
-                        }
-                        },
+                    "must": [
                         {
                         "range": {
                             '@timestamp': {'gt': 'now-30m'}
@@ -23,8 +18,21 @@ class esApi():
                     },
                         {
                          "term": {
-                             "appname": "watcher"
+                             "appname": "bi"
                          }
+                        }
+
+                    ],
+                    "should": [
+                        {
+                            "match": {
+                                "message": "数据共享平台,接口响应异常"
+                            }
+                        },
+                        {
+                            "match": {
+                                "message": "数据共享平台,通过身份证号获取健康码失败"
+                            }
                         }
                     ]
                 }

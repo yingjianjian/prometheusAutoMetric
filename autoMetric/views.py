@@ -8,7 +8,7 @@ import random
 from .util import esApi,urlRequest
 
 REGISTRY = CollectorRegistry(auto_describe=False)
-esStatus = Gauge("elasticsearch", "elasticsearch status is:", ["node", "class"],
+esStatus = Counter("elasticsearch", "elasticsearch status is:", ["index", "messages","appname","loglevel"],
                  registry=REGISTRY)  # 数值可大可小
 
 
@@ -17,10 +17,13 @@ urlCollector = Counter("watcherStatus","watcher Url status",["status","code","ur
 class ApiResponse(View):
     def get(self,request):
         es_obj = esApi.esApi()
-        es_result = es_obj.es_status()
-        for node, values in es_result.items():
-            for key,value in values.items():
-                esStatus.labels(node,key).set(value)
+        es_result = es_obj.es_obj()
+        for dict in es_result:
+            index = dict['_index']
+            messages = dict['_source']['message']
+            appname = dict['_source']['appname']
+            loglevel = dict['_source']['loglevel']
+            esStatus.labels(index,messages,appname,loglevel).inc()
         return HttpResponse(prometheus_client.generate_latest(REGISTRY),content_type="text/plain")
 class urlStatus(View):
     def get(self,request):
